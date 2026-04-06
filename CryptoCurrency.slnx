@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CryptoCurrency.Application/CryptoCurrency.Application.csproj" />
+  <Project Path="CryptoCurrency.Domain/CryptoCurrency.Domain.csproj" />
+  <Project Path="CryptoCurrency.Infrastructure/CryptoCurrency.Infrastructure.csproj" />
+  <Project Path="CryptoCurrency/CryptoCurrencyAPI.csproj" />
+</Solution>
