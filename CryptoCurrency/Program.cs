@@ -23,6 +23,7 @@ builder.Services.AddHttpClient<CoinGekoService>(client =>
 builder.Services.AddAutoMapper(typeof(DTOMapping));
 builder.Services.AddScoped<IWalletInterface, WalletService>();
 builder.Services.AddScoped<ICryptoTransactionInterface, CryptoTransactionService>();
+builder.Services.AddScoped<IPortfolioInterface, PortfolioResService>(); 
 builder.Services.AddScoped<CoinSyncService>();
 builder.Services.AddScoped<CoinGekoService>();
 

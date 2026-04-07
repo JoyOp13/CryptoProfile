@@ -32,7 +32,7 @@ namespace CryptoCurrency.Infrastructure.Services
 
                 Console.WriteLine("Sync Done");
 
-                // ⏳ Wait 30 minutes
+                // 5 minutes delay before the next sync
                 await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }
         }
