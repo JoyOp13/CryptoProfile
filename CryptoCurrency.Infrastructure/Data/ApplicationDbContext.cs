@@ -16,21 +16,17 @@ namespace CryptoCurrency.Infrastructure.Data
         }
         public DbSet<Users> Users { get; set; }
 
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
 
-        public DbSet<BankDetails> BankDetails { get; set; }
+        public DbSet<CryptoCoin> CryptoCoin { get; set; }
 
-        public DbSet<CryptoCoin> CryptoCoins { get; set; }
+        public DbSet<Wallet> Wallet { get; set; }
 
-        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<WalletHistory> WalletHistory { get; set; }
 
-        public DbSet<WalletTransaction> WalletTransactions { get; set; }
+        public DbSet<Favorite> Favorite { get; set; }
 
-        public DbSet<Wishlist> Wishlists { get; set; }
-
-
-
-
+        public DbSet<Portfolio> Portfolio { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,25 +49,13 @@ namespace CryptoCurrency.Infrastructure.Data
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
-            modelBuilder.Entity<WalletTransaction>()
+            modelBuilder.Entity<WalletHistory>()
              .HasOne(wt => wt.Wallets)
-             .WithMany(w => w.WalletTransactions)
+             .WithMany(w => w.WalletHistory)
              .HasForeignKey(wt => wt.WalletId)
              .OnDelete(DeleteBehavior.Restrict);
 
-
-
-
-
-            modelBuilder.Entity<BankDetails>(b =>
-            {
-                b.HasOne(x => x.Users)
-                 .WithMany(u => u.BankDetails)
-                 .HasForeignKey(x => x.UserId)
-                 .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            modelBuilder.Entity<Wishlist>(w =>
+            modelBuilder.Entity<Favorite>(w =>
             {
                 w.HasOne(x => x.Users)
                  .WithMany()
@@ -83,6 +67,14 @@ namespace CryptoCurrency.Infrastructure.Data
                  .HasForeignKey(x => x.CryptoCoinId)
                  .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.TransactionType)
+                    .HasConversion<string>();
+
+                   modelBuilder.Entity<Transaction>()
+                .Property(t => t.PaymentStatus)
+                .HasConversion<string>();
 
         }
 

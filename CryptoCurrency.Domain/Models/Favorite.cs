@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace CryptoCurrency.Domain.Models
 {
-    public class Wishlist
+    public class Favorite
     {
         [Key]
-        public int WishlistId { get; set; }
+        public int FavoriteId { get; set; }
 
         [ForeignKey("Users")]
         public int UserId { get; set; }

@@ -31,21 +31,30 @@ namespace CryptoCurrency.Domain.Models
         public Wallet Wallet { get; set; }
 
         [Required]
-        public int Quantity { get; set; }
+        [Column(TypeName = "decimal(20,8)")]
+        public decimal Quantity { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(10,2)")]
+        [Column(TypeName = "decimal(20,2)")]
         public decimal TransactionAmt { get; set; }
 
         [Required]
         [MaxLength(10)]
         public string Currency { get; set; }
 
-        [MaxLength(10)]
-        public string TransactionType { get; set; }
-
-        [MaxLength(15)]
-        public string PaymentStatus { get; set; }
+        public enum TransactionTypeEnum
+        {
+            Buy,
+            Sell
+        }
+        public enum PaymentStatusEnum
+        {
+            Pending,
+            Completed,
+            Failed
+        }
+        public TransactionTypeEnum TransactionType { get; set; }
+        public PaymentStatusEnum PaymentStatus { get; set; }
 
         [MaxLength(15)]
         public string PaymentMethod { get; set; }

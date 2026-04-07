@@ -12,22 +12,21 @@ namespace CryptoCurrency.Domain.Models
     {
         [Key]
         public int CryptoCoinId { get; set; }
-
+        public string CoinGeckoId { get; set; }
         [Required]
-        [MaxLength(30)]
+        [MaxLength(200)]
         public string CryptoCoinName { get; set; }
 
         [Required]
-        [MaxLength(50)]
         public string CryptoIcon { get; set; }
 
         [Required]
-        [MaxLength(30)]
-        public string CrytoSymbol { get; set; }
+        [MaxLength(45)]
+        public string CryptoSymbol { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(20,8)")]
-        public decimal CryptoPrice { get; set; }
+        public decimal Quantity { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? ModifiedBy { get; set; }

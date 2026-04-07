@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
+using CryptoCurrency.Application.DTO.Buy_SellDTO;
+using CryptoCurrency.Application.DTO.BuyDTO;
+using CryptoCurrency.Application.DTO.TransactionDTO;
+using CryptoCurrency.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CryptoCurrency.Domain.Models.Transaction;
 
 namespace CryptoCurrency.Application.Mapping
 {
@@ -11,20 +16,37 @@ namespace CryptoCurrency.Application.Mapping
     {
         public DTOMapping() {
 
-            //CreateMap<Employee, LoginResDTO>().ForMember(x => x.RoleName, x => x.MapFrom(x => x.AddRole.RoleName));
+                 // BUY Mapping
+                 CreateMap<BuyCoinDTO, Transaction>()
+                .ForMember(x => x.Currency,
+                    y => y.MapFrom(_ => "USD"))
+                .ForMember(dest => dest.PaymentStatus,
+                    y => y.MapFrom(_ => PaymentStatusEnum.Completed))
+                .ForMember(dest => dest.PaymentMethod,
+                    y => y.MapFrom(_ => "Wallet"));
 
-            //// Employee Mapping
+                 // SELL Mapping
+                 CreateMap<SellCoinDTO, Transaction>()
+                .ForMember(x => x.Currency,
+                    y => y.MapFrom(_ => "USD"))
+                .ForMember(dest => dest.PaymentStatus,
+                    y => y.MapFrom(_ => PaymentStatusEnum.Completed))
+                .ForMember(dest => dest.PaymentMethod,
+                    y => y.MapFrom(_ => "Wallet"));
 
-            //CreateMap<Employee, EmployeeDTO>().ReverseMap();
-
-            //CreateMap<Employee, EmpFeatchDTO>()
-            // .ForMember(x => x.DepartmentName,
-            //    x => x.MapFrom(x => x.AddDepartments.DepartmentName != null ? x.AddDepartments.DepartmentName : "Department Not Exist")
-            //    )
-            //.ForMember(x => x.DesignationName,
-            //    x => x.MapFrom(x => x.AddDesignation.DesignationName != null ? x.AddDesignation.DesignationName : "Designation Not Exist"))
-            //.ForMember(x => x.RoleName,
-            //    x => x.MapFrom(x => x.AddRole.RoleName != null ? x.AddRole.RoleName : "Role Not Exist"));
+                 // Transaction History
+                    CreateMap<Transaction, TransactionHistoryDTO>()
+            .ForMember(x => x.CoinName,
+                y => y.MapFrom(src => src.CryptoCoin.CryptoCoinName))
+            .ForMember(dest => dest.Symbol,
+                y => y.MapFrom(src => src.CryptoCoin.CryptoSymbol))
+            .ForMember(dest => dest.Amount,
+                y => y.MapFrom(src => src.TransactionAmt))
+            .ForMember(dest => dest.Type,
+                y => y.MapFrom(src => src.TransactionType.ToString()))
+            .ForMember(dest => dest.Date,
+                y => y.MapFrom(src => src.CreatedAt));
         }
     }
 }
+

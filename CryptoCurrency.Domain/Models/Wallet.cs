@@ -14,7 +14,7 @@ namespace CryptoCurrency.Domain.Models
         public int WalletId { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(11,2)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Balance { get; set; }
 
         public string? ModifiedBy { get; set; }
@@ -25,16 +25,11 @@ namespace CryptoCurrency.Domain.Models
 
         public DateTime CreatedAt { get; set; }
 
-        public string? DeletedBy { get; set; }
-
-        public DateTime DeletedAt { get; set; }
-
 
         //[ForeignKey("WalletTransactions")]
         //public int WalletTransactionId { get; set; }
 
-        public List<WalletTransaction> WalletTransactions { get; set; }
-
+        public List<WalletHistory> WalletHistory { get; set; }
 
         [ForeignKey("Users")]
         public int UserId { get; set; }

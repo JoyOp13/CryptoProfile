@@ -15,7 +15,7 @@ namespace CryptoCurrency.Domain.Models
         [Required]
         [MaxLength(30)]
         public string UserName { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         
         [Required]
         [MaxLength(150)]
@@ -25,14 +25,12 @@ namespace CryptoCurrency.Domain.Models
         [MaxLength(150)]
         public string PassWord { get; set; }
 
+        public Wallet? Wallet { get; set; }
         public List<Transaction> Transactions { get; set; }
-
-        public List<BankDetails> BankDetails { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public string ModifiedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+        public string? ModifiedBy { get; set; }
 
     }
 }

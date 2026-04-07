@@ -8,22 +8,15 @@ using System.Threading.Tasks;
 
 namespace CryptoCurrency.Domain.Models
 {
-    public class WalletTransaction
+    public class WalletHistory
     {
         [Key]
         public int WalletTransactionId { get; set; }
 
-        //[ForeignKey("User")]
-        //public int UserId { get; set; }
+        [ForeignKey("Users")]
+        public int UserId { get; set; }
 
-        //public User User { get; set; }
-
-
-
-        [ForeignKey("BankDetails")]
-        public int AccountId { get; set; }
-
-        public BankDetails BankDetails { get; set; }
+        public Users Users { get; set; }
 
         [ForeignKey("Wallets")]
         public int WalletId { get; set; }
@@ -32,7 +25,7 @@ namespace CryptoCurrency.Domain.Models
 
         public string WalletAction { get; set; }
 
-        [Column(TypeName = "decimal(11,2)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
         public string status { get; set; }
@@ -41,9 +34,7 @@ namespace CryptoCurrency.Domain.Models
         public string? ModifiedBy { get; set; }
 
         public DateTime ModifiedAt { get; set; }
-
         public string? CreatedBy { get; set; }
-
         public DateTime CreatedAt { get; set; }
     }
 }

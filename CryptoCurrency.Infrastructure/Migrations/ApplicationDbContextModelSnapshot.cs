@@ -22,33 +22,17 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.BankDetails", b =>
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.CryptoCoin", b =>
                 {
-                    b.Property<int>("AccountId")
+                    b.Property<int>("CryptoCoinId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CryptoCoinId"));
 
-                    b.Property<string>("AccountHolderName")
+                    b.Property<string>("CoinGeckoId")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("AccountType")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("BankName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -56,10 +40,50 @@ namespace CryptoCurrency.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IFSCCode")
+                    b.Property<string>("CryptoCoinName")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("CryptoIcon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CryptoSymbol")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(20,8)");
+
+                    b.HasKey("CryptoCoinId");
+
+                    b.ToTable("CryptoCoin");
+                });
+
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.Favorite", b =>
+                {
+                    b.Property<int>("FavoriteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavoriteId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CryptoCoinId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -70,54 +94,42 @@ namespace CryptoCurrency.Infrastructure.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("AccountId");
+                    b.HasKey("FavoriteId");
+
+                    b.HasIndex("CryptoCoinId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BankDetails");
+                    b.ToTable("Favorite");
                 });
 
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.CryptoCoin", b =>
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.Portfolio", b =>
                 {
-                    b.Property<int>("CryptoCoinId")
+                    b.Property<int>("PortfolioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CryptoCoinId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PortfolioId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CryptoCoinName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("CryptoIcon")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("CryptoPrice")
+                    b.Property<decimal>("AvgBuyPrice")
                         .HasColumnType("decimal(20,8)");
 
-                    b.Property<string>("CrytoSymbol")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<int>("CryptoCoinId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(20,8)");
 
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasKey("CryptoCoinId");
+                    b.HasKey("PortfolioId");
 
-                    b.ToTable("CryptoCoins");
+                    b.HasIndex("CryptoCoinId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Portfolio");
                 });
 
             modelBuilder.Entity("CryptoCurrency.Domain.Models.Transaction", b =>
@@ -155,19 +167,17 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     b.Property<string>("PaymentStatus")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(20,8)");
 
                     b.Property<decimal>("TransactionAmt")
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(20,2)");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -183,7 +193,7 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("CryptoCurrency.Domain.Models.Users", b =>
@@ -194,11 +204,10 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -206,11 +215,10 @@ namespace CryptoCurrency.Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PassWord")
@@ -219,7 +227,6 @@ namespace CryptoCurrency.Infrastructure.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
@@ -241,18 +248,12 @@ namespace CryptoCurrency.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WalletId"));
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(11,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedAt")
@@ -266,12 +267,13 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     b.HasKey("WalletId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallet");
                 });
 
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.WalletTransaction", b =>
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.WalletHistory", b =>
                 {
                     b.Property<int>("WalletTransactionId")
                         .ValueGeneratedOnAdd()
@@ -279,11 +281,8 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WalletTransactionId"));
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(11,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -296,6 +295,9 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("WalletAction")
                         .IsRequired()
@@ -310,57 +312,49 @@ namespace CryptoCurrency.Infrastructure.Migrations
 
                     b.HasKey("WalletTransactionId");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("WalletTransactions");
+                    b.ToTable("WalletHistory");
                 });
 
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.Wishlist", b =>
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.Favorite", b =>
                 {
-                    b.Property<int>("WishlistId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("CryptoCurrency.Domain.Models.CryptoCoin", "CryptoCoin")
+                        .WithMany()
+                        .HasForeignKey("CryptoCoinId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistId"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CryptoCoinId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("WishlistId");
-
-                    b.HasIndex("CryptoCoinId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Wishlists");
-                });
-
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.BankDetails", b =>
-                {
                     b.HasOne("CryptoCurrency.Domain.Models.Users", "Users")
-                        .WithMany("BankDetails")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("CryptoCoin");
+
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.Portfolio", b =>
+                {
+                    b.HasOne("CryptoCurrency.Domain.Models.CryptoCoin", "CryptoCoin")
+                        .WithMany()
+                        .HasForeignKey("CryptoCoinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CryptoCurrency.Domain.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CryptoCoin");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CryptoCurrency.Domain.Models.Transaction", b =>
@@ -393,62 +387,43 @@ namespace CryptoCurrency.Infrastructure.Migrations
             modelBuilder.Entity("CryptoCurrency.Domain.Models.Wallet", b =>
                 {
                     b.HasOne("CryptoCurrency.Domain.Models.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Wallet")
+                        .HasForeignKey("CryptoCurrency.Domain.Models.Wallet", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.WalletTransaction", b =>
+            modelBuilder.Entity("CryptoCurrency.Domain.Models.WalletHistory", b =>
                 {
-                    b.HasOne("CryptoCurrency.Domain.Models.BankDetails", "BankDetails")
+                    b.HasOne("CryptoCurrency.Domain.Models.Users", "Users")
                         .WithMany()
-                        .HasForeignKey("AccountId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CryptoCurrency.Domain.Models.Wallet", "Wallets")
-                        .WithMany("WalletTransactions")
+                        .WithMany("WalletHistory")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("BankDetails");
+                    b.Navigation("Users");
 
                     b.Navigation("Wallets");
                 });
 
-            modelBuilder.Entity("CryptoCurrency.Domain.Models.Wishlist", b =>
-                {
-                    b.HasOne("CryptoCurrency.Domain.Models.CryptoCoin", "CryptoCoin")
-                        .WithMany()
-                        .HasForeignKey("CryptoCoinId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CryptoCurrency.Domain.Models.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CryptoCoin");
-
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("CryptoCurrency.Domain.Models.Users", b =>
                 {
-                    b.Navigation("BankDetails");
-
                     b.Navigation("Transactions");
+
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("CryptoCurrency.Domain.Models.Wallet", b =>
                 {
-                    b.Navigation("WalletTransactions");
+                    b.Navigation("WalletHistory");
                 });
 #pragma warning restore 612, 618
         }
