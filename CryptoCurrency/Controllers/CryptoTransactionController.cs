@@ -1,4 +1,5 @@
-﻿using CryptoCurrency.Application.DTO.Buy_SellDTO;
+﻿using CryptoCurrency.Application.ApiResoponseHelper;
+using CryptoCurrency.Application.DTO.Buy_SellDTO;
 using CryptoCurrency.Application.DTO.BuyDTO;
 using CryptoCurrency.Application.Interface;
 using Microsoft.AspNetCore.Http;
@@ -21,21 +22,21 @@ namespace CryptoCurrencyAPI.Controllers
         public async Task<IActionResult> Buy(BuyCoinDTO dto)
         {
             await service.BuyCoin(dto);
-            return Ok("Coin Kharid Liya");
+            return ApiResponse.Success<object>(null, "Coin Kharid Diya");
         }
 
         [HttpPost("Sell")]
         public async Task<IActionResult> Sell(SellCoinDTO dto)
         {
             await service.SellCoin(dto);
-            return Ok(new { message = "Coin Bech Diya" });
+            return ApiResponse.Success<object>(null, "Coin Bech Diya");
         }
 
         [HttpGet("TransactionHistory")]
         public IActionResult GetTransaction()
         {
             var data = service.GetTransactionHistory();
-            return Ok(data);
+            return ApiResponse.Success<object>(data, "Transaction History Featch Syccessfully");
         }
     }
 }

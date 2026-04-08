@@ -1,8 +1,10 @@
-﻿using CryptoCurrency.Application.DTO.PaginationDTOS;
+﻿using CryptoCurrency.Application.ApiResoponseHelper;
+using CryptoCurrency.Application.DTO.PaginationDTOS;
 using CryptoCurrency.Infrastructure.Services;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CryptoCurrencyAPI.Controllers
 {
@@ -21,14 +23,14 @@ namespace CryptoCurrencyAPI.Controllers
         public async Task<IActionResult> GetMarket([FromQuery] CoinsPaginationDTO dto)
         {
             var data = await service.GetCoins(dto);
-            return Ok(data);
+            return ApiResponse.Success<object>(data,"Crypto Coins Featch Syccessfully");
         }
 
         [HttpPost("SyncCoins")]
         public async Task<IActionResult> Sync()
         {
             await service.SyncCoins();
-            return Ok("Coins synced successfully");
+            return ApiResponse.Success<object>(null, "Crypto Coins Sync Syccessfully");
         }
     }
 }

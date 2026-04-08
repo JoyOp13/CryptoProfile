@@ -1,4 +1,5 @@
-﻿using CryptoCurrency.Application.Interface;
+﻿using CryptoCurrency.Application.ApiResoponseHelper;
+using CryptoCurrency.Application.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace CryptoCurrencyAPI.Controllers
         public async Task<IActionResult> GetPortfolio()
         {
             var data = await service.GetProfileResponse();
-            return Ok(data);
+            return ApiResponse.Success<object>(data, "Portfolio Data Featch Syccessfully");
         }
     }
 }

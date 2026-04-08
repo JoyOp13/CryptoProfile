@@ -1,4 +1,5 @@
-﻿using CryptoCurrency.Application.DTO.WalletDTO;
+﻿using CryptoCurrency.Application.ApiResoponseHelper;
+using CryptoCurrency.Application.DTO.WalletDTO;
 using CryptoCurrency.Application.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace CryptoCurrencyAPI.Controllers
             var user = User.FindFirst(ClaimTypes.Name)?.Value ?? "jay";
 
             walletService.AddMoney(dto, user);
-            return Ok(new { message = "Money added successfully" });
+            return ApiResponse.Success<object>(null, "Money Added successfully");
         }
 
         [HttpPost("WithDraw")]
@@ -32,7 +33,7 @@ namespace CryptoCurrencyAPI.Controllers
             var user = User.FindFirst(ClaimTypes.Name)?.Value ?? "jay";
 
             walletService.WithdrawMoney(dto, user);
-            return Ok(new { message = "Money withdrawn successfully" });
+            return ApiResponse.Success<object>(null, "Money Withdraw successfully");
         }
 
         [HttpGet("Balance")]
@@ -41,7 +42,7 @@ namespace CryptoCurrencyAPI.Controllers
             var user = User.FindFirst(ClaimTypes.Name)?.Value ?? "demoUser";
 
             var data = walletService.GetWallet(user);
-            return Ok(data);
+            return ApiResponse.Success<object>(data, "Wallet Balance Featch Syccessfully");
         }
     }
 }
