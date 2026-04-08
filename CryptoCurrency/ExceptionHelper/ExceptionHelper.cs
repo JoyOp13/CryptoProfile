@@ -6,15 +6,12 @@ namespace CryptoCurrencyAPI.ExceptionHelper
     public class ExceptionHelper
     {
         private readonly RequestDelegate rd;
-        private readonly ILoggerInterface logger;
-
-        public ExceptionHelper(RequestDelegate rd, ILoggerInterface logger)
+        public ExceptionHelper(RequestDelegate rd)
         {
             this.rd = rd;
-            this.logger = logger;
+           
         }
-
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ILoggerInterface logger)
         {
             try
             {

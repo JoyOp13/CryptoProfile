@@ -2,6 +2,7 @@ using CryptoCurrency.Application.Interface;
 using CryptoCurrency.Application.Mapping;
 using CryptoCurrency.Infrastructure.Data;
 using CryptoCurrency.Infrastructure.Services;
+using CryptoCurrencyAPI.ExceptionHelper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Threading.RateLimiting;
@@ -26,6 +27,7 @@ builder.Services.AddAutoMapper(typeof(DTOMapping));
 builder.Services.AddScoped<IWalletInterface, WalletService>();
 builder.Services.AddScoped<ICryptoTransactionInterface, CryptoTransactionService>();
 builder.Services.AddScoped<IPortfolioInterface, PortfolioResService>(); 
+builder.Services.AddScoped<ILoggerInterface,LoggerService>();
 builder.Services.AddScoped<CoinSyncService>();
 builder.Services.AddScoped<CoinGekoService>();
 
@@ -78,7 +80,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ExceptionHelper>();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
 app.MapControllers();
