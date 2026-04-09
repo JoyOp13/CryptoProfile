@@ -12,7 +12,7 @@ namespace CryptoCurrency.Infrastructure.Services
     {
         public void LogError(Exception ex, string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"ERROR: {message} - {ex.Message}");
         }
 
         public void LogInfo(string message)

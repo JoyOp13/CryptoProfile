@@ -24,7 +24,9 @@ namespace CryptoCurrency.Domain.Models
         [Required]
         [MaxLength(150)]
         public string PassWord { get; set; }
-
+        public string? Role { get; set; }
+        public string? AuthenticatorKey { get; set; }
+        public bool Is2FAEnabled { get; set; }
         public Wallet? Wallet { get; set; }
         public List<Transaction> Transactions { get; set; }
         public DateTime? CreatedAt { get; set; }

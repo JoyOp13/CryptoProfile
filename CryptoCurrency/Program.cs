@@ -3,8 +3,11 @@ using CryptoCurrency.Application.Mapping;
 using CryptoCurrency.Infrastructure.Data;
 using CryptoCurrency.Infrastructure.Services;
 using CryptoCurrencyAPI.ExceptionHelper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,10 +30,21 @@ builder.Services.AddAutoMapper(typeof(DTOMapping));
 builder.Services.AddScoped<IWalletInterface, WalletService>();
 builder.Services.AddScoped<ICryptoTransactionInterface, CryptoTransactionService>();
 builder.Services.AddScoped<IPortfolioInterface, PortfolioResService>(); 
-builder.Services.AddScoped<ILoggerInterface,LoggerService>();
+builder.Services.AddSingleton<ILoggerInterface,LoggerService>();
+builder.Services.AddScoped<IFavoriteInterface, FavoriteService>();
+builder.Services.AddScoped<IAuthInterface, AuthService>();
+builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<CoinSyncService>();
 builder.Services.AddScoped<CoinGekoService>();
 
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Configure session options if needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+// Rate Limiting
 builder.Services.AddRateLimiter(options =>
 {
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>
@@ -58,6 +72,24 @@ builder.Services.AddRateLimiter(options =>
     };
 });
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+            )
+        };
+    });
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -84,6 +116,7 @@ app.UseMiddleware<ExceptionHelper>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
+app.UseSession();
 app.MapControllers();
 
 app.Run();

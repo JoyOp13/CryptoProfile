@@ -42,6 +42,9 @@ namespace CryptoCurrency.Infrastructure.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     PassWord = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuthenticatorKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Is2FAEnabled = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -58,12 +61,12 @@ namespace CryptoCurrency.Infrastructure.Migrations
                 {
                     FavoriteId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CryptoCoinId = table.Column<int>(type: "int", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CryptoCoinId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

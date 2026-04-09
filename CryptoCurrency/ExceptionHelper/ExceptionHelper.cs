@@ -6,6 +6,7 @@ namespace CryptoCurrencyAPI.ExceptionHelper
     public class ExceptionHelper
     {
         private readonly RequestDelegate rd;
+
         public ExceptionHelper(RequestDelegate rd)
         {
             this.rd = rd;

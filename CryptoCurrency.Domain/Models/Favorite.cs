@@ -12,7 +12,13 @@ namespace CryptoCurrency.Domain.Models
     {
         [Key]
         public int FavoriteId { get; set; }
+        public string? ModifiedBy { get; set; }
 
+        public DateTime ModifiedAt { get; set; }
+
+        public string? CreatedBy { get; set; }
+
+        public DateTime CreatedAt { get; set; }
         [ForeignKey("Users")]
         public int UserId { get; set; }
 
@@ -22,14 +28,6 @@ namespace CryptoCurrency.Domain.Models
         public int CryptoCoinId { get; set; }
 
         public CryptoCoin CryptoCoin { get; set; }
-
-        public string? ModifiedBy { get; set; }
-
-        public DateTime ModifiedAt { get; set; }
-
-        public string? CreatedBy { get; set; }
-
-        public DateTime CreatedAt { get; set; }
 
     }
 }
