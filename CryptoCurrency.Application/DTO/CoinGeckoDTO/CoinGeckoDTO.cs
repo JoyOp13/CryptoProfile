@@ -12,6 +12,6 @@ namespace CryptoCurrency.Application.DTO.CoinGeckoDTO
         public string name { get; set; }
         public string symbol { get; set; }
         public string image { get; set; }
-        public decimal current_price { get; set; }
+        public double? current_price { get; set; }
     }
 }

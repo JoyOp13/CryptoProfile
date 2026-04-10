@@ -10,6 +10,6 @@ namespace CryptoCurrency.Application.Interface
 {
     public interface IPortfolioInterface
     {
-        Task<List<PortfolioDTO>> GetProfileResponse();
+        Task<List<PortfolioDTO>> GetProfileResponse(string userName);
     }
 }

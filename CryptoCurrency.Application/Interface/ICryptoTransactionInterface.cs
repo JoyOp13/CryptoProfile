@@ -11,9 +11,9 @@ namespace CryptoCurrency.Application.Interface
 {
     public interface ICryptoTransactionInterface
     {
-        Task BuyCoin(BuyCoinDTO dto);
-        Task SellCoin(SellCoinDTO dto);
-        List<TransactionHistoryDTO> GetTransactionHistory();
+        Task BuyCoin(BuyCoinDTO dto, string userName);
+        Task SellCoin(SellCoinDTO dto, string userName);
+        List<TransactionHistoryDTO> GetTransactionHistory(string userName);
         
     }
 }

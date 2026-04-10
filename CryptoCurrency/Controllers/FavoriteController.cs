@@ -1,8 +1,10 @@
 ﻿using CryptoCurrency.Application.ApiResoponseHelper;
 using CryptoCurrency.Application.DTO.FavoriteDTO;
 using CryptoCurrency.Application.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CryptoCurrencyAPI.Controllers
 {
@@ -20,22 +22,25 @@ namespace CryptoCurrencyAPI.Controllers
         [HttpPost("AddToFav")]
         public async Task<IActionResult> AddFav(AddFavoriteDTO dto)
         {
-            await favoriteInterface.AddFavorite(dto);
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            await favoriteInterface.AddFavorite(dto, userName);
             return ApiResponse.Success<object>(null, "Added To Favorites ");
 
         }
-
+        [Authorize]
         [HttpGet("GetFav")]
         public async Task<IActionResult> GetFav()
         {
-            var data = await favoriteInterface.GetFavorites();
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            var data = await favoriteInterface.GetFavorites(userName);
             return ApiResponse.Success<object>(data, "Favorites retrieved successfully");
         }
 
         [HttpDelete("RemoveFav{coinId}")]
         public async Task<IActionResult> RemoveFav(int coinId)
         {
-            await favoriteInterface.RemoveFavorite(coinId);
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            await favoriteInterface.RemoveFavorite(coinId,userName);
             return ApiResponse.Success<object>(null,"Removed From Favorites ");
         }
 

@@ -23,9 +23,12 @@ namespace CryptoCurrency.Infrastructure.Services
             this.service = service;
         }
 
-        public async Task<List<PortfolioDTO>> GetProfileResponse()
+        public async Task<List<PortfolioDTO>> GetProfileResponse(string userName)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if (user == null) throw new Exception("User not found");
 
             var portfolioList = db.Portfolio
@@ -37,7 +40,7 @@ namespace CryptoCurrency.Infrastructure.Services
 
             foreach (var item in portfolioList)
             {
-                var currentPrice = await service.GetCoinPrice(item.CryptoCoin.CoinGeckoId);
+                var currentPrice = item.CryptoCoin.CurrentPrice;
 
                 var dto = mapper.Map<PortfolioDTO>(item);
 

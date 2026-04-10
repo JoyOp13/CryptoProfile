@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,9 +23,11 @@ namespace CryptoCurrency.Infrastructure.Services
          this.mapper = mapper;
          this.coinGeko = coinGeko;
         }
-        public async Task AddFavorite(AddFavoriteDTO dto)
+        public async Task AddFavorite(AddFavoriteDTO dto, string userName)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if ((user == null))
                 throw new Exception("User not found");
 
@@ -43,9 +46,11 @@ namespace CryptoCurrency.Infrastructure.Services
             await db.SaveChangesAsync();
         }
 
-        public async Task<List<FavoriteResDTO>> GetFavorites()
+        public async Task<List<FavoriteResDTO>> GetFavorites(string userName)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if ((user == null))
                 throw new Exception("User not found");
 
@@ -67,9 +72,11 @@ namespace CryptoCurrency.Infrastructure.Services
             return result;
         }
 
-        public async Task RemoveFavorite(int coinId)
+        public async Task RemoveFavorite(int coinId, string userName)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if (user == null) throw new Exception("User not found");
 
             var fav = db.Favorite

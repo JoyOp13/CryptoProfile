@@ -12,7 +12,7 @@ namespace CryptoCurrency.Application.Interface
         void Register(RegisterDTO dto);
         LoginResDTO Login(LoginReqDTO dto);
 
-        string GenerateQRCode(string email, out string key);
+        string GenerateQRCode(string email);
 
         TokenDTO VerifyOtp(VerifyOTPDTO dto);
 

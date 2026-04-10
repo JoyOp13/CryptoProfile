@@ -34,7 +34,7 @@ namespace CryptoCurrency.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -54,13 +54,20 @@ namespace CryptoCurrency.Infrastructure.Migrations
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<decimal>("CurrentPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Quantity")
+                    b.Property<decimal?>("Quantity")
+                        .IsRequired()
                         .HasColumnType("decimal(20,8)");
 
                     b.HasKey("CryptoCoinId");

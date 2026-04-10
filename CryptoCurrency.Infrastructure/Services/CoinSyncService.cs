@@ -32,8 +32,8 @@ namespace CryptoCurrency.Infrastructure.Services
 
                 Console.WriteLine("Sync Done");
 
-                // 5 minutes delay before the next sync
-                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+                // 2 minutes delay before the next sync
+                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);
             }
         }
     }

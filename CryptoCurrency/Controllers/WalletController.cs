@@ -21,7 +21,7 @@ namespace CryptoCurrencyAPI.Controllers
         [HttpPost("AddMoney")]
         public IActionResult AddMoney(AddMoneyDTO dto)
         {
-            var user = User.FindFirst(ClaimTypes.Name)?.Value ?? "jay";
+            var user = User.FindFirst(ClaimTypes.Name)?.Value;
 
             walletService.AddMoney(dto, user);
             return ApiResponse.Success<object>(null, "Money Added successfully");
@@ -30,7 +30,7 @@ namespace CryptoCurrencyAPI.Controllers
         [HttpPost("WithDraw")]
         public IActionResult Withdraw(WithDrawDTO dto)
         {
-            var user = User.FindFirst(ClaimTypes.Name)?.Value ?? "jay";
+            var user = User.FindFirst(ClaimTypes.Name)?.Value;
 
             walletService.WithdrawMoney(dto, user);
             return ApiResponse.Success<object>(null, "Money Withdraw successfully");
@@ -39,7 +39,7 @@ namespace CryptoCurrencyAPI.Controllers
         [HttpGet("Balance")]
         public IActionResult GetBalance()
         {
-            var user = User.FindFirst(ClaimTypes.Name)?.Value ?? "demoUser";
+            var user = User.FindFirst(ClaimTypes.Name)?.Value;
 
             var data = walletService.GetWallet(user);
             return ApiResponse.Success<object>(data, "Wallet Balance Featch Syccessfully");

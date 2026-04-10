@@ -2,6 +2,7 @@
 using CryptoCurrency.Application.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CryptoCurrencyAPI.Controllers
 {
@@ -16,7 +17,8 @@ namespace CryptoCurrencyAPI.Controllers
         [HttpGet("GetPortfolio")]
         public async Task<IActionResult> GetPortfolio()
         {
-            var data = await service.GetProfileResponse();
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            var data = await service.GetProfileResponse(userName);
             return ApiResponse.Success<object>(data, "Portfolio Data Featch Syccessfully");
         }
     }

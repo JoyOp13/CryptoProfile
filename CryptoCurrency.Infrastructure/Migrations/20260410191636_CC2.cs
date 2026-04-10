@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CryptoCurrency.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CC1 : Migration
+    public partial class CC2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,11 +21,13 @@ namespace CryptoCurrency.Infrastructure.Migrations
                     CryptoCoinName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CryptoIcon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CryptoSymbol = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    CurrentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(20,8)", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

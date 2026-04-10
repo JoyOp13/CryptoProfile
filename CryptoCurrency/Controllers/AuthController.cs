@@ -34,7 +34,7 @@ namespace CryptoCurrencyAPI.Controllers
         [HttpGet("QRCode")]
         public IActionResult GenerateQR(string email)
         {
-            var qr = authInterface.GenerateQRCode(email, out string key);
+            var qr = authInterface.GenerateQRCode(email);
 
             return Ok(new
             {
@@ -42,7 +42,7 @@ namespace CryptoCurrencyAPI.Controllers
             });
         }
 
-        [HttpPost("Verify")]
+        [HttpPost("VerifyOTP")]
         public IActionResult VerifyOtp(VerifyOTPDTO dto)
         {
             var result = authInterface.VerifyOtp(dto);

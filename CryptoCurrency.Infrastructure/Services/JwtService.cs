@@ -19,13 +19,13 @@ namespace CryptoCurrency.Infrastructure.Services
             this.config = config;
         }
 
-        public string GenerateToken(string email, string role, string name)
+        public string GenerateToken(string email, string role, string userName)
         {
             var key = Encoding.UTF8.GetBytes(config["Jwt:Key"]);
 
             var claims = new[]
             {
-            new Claim(ClaimTypes.Name, name ),
+            new Claim(ClaimTypes.Name, userName ),
             new Claim(ClaimTypes.Email, email),
             new Claim(ClaimTypes.Role, role)
             };

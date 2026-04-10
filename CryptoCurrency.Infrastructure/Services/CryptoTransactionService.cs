@@ -34,10 +34,11 @@ namespace CryptoCurrency.Infrastructure.Services
         }
 
 
-        public async Task BuyCoin(BuyCoinDTO dto)
+        public async Task BuyCoin(BuyCoinDTO dto, string userName)
         {
-            // Temp User Jay
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if (user == null)
                 throw new Exception("User not found");
 
@@ -76,7 +77,6 @@ namespace CryptoCurrency.Infrastructure.Services
                 };
 
                 db.Portfolio.Add(portfolio);
-                db.SaveChanges();
             }
             else
             {
@@ -99,9 +99,11 @@ namespace CryptoCurrency.Infrastructure.Services
 
             db.SaveChanges();
         }
-        public async Task SellCoin(SellCoinDTO dto)
+        public async Task SellCoin(SellCoinDTO dto, string userName)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if (user == null) throw new Exception("User not found");
 
             var wallet = db.Wallet.FirstOrDefault(x => x.UserId == user.UserId);
@@ -149,9 +151,11 @@ namespace CryptoCurrency.Infrastructure.Services
             await db.SaveChangesAsync();
         }
 
-        public List<TransactionHistoryDTO> GetTransactionHistory()
+        public List<TransactionHistoryDTO> GetTransactionHistory(string userName)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
             if (user == null)
                 throw new Exception("User Nahi mil Raha Bhai");
 

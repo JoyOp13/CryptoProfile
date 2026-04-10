@@ -21,10 +21,11 @@ namespace CryptoCurrency.Infrastructure.Services
 
             public void AddMoney(AddMoneyDTO dto, string userName)
             {
-                //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-                 var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
-                
-                if (user == null) throw new Exception("User not found");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+
+            if (user == null) throw new Exception("User not found");
 
                 var wallet = db.Wallet.FirstOrDefault(x => x.UserId == user.UserId);
 
@@ -64,9 +65,10 @@ namespace CryptoCurrency.Infrastructure.Services
 
             public void WithdrawMoney(WithDrawDTO dto, string userName)
             {
-                //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-                var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
-                if (user == null) throw new Exception("User not found");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            if (user == null) throw new Exception("User not found");
 
                 var wallet = db.Wallet.FirstOrDefault(x => x.UserId == user.UserId);
                 if (wallet == null) throw new Exception("Wallet not found");
@@ -95,8 +97,9 @@ namespace CryptoCurrency.Infrastructure.Services
 
             public WalletDTO GetWallet(string userName)
             {
-                //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == "jay");
+            //userName = "jay";
+            //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
 
             if (user == null) throw new Exception("User not found");
 

@@ -23,13 +23,16 @@ namespace CryptoCurrency.Domain.Models
         [Required]
         [MaxLength(45)]
         public string CryptoSymbol { get; set; }
-
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal CurrentPrice { get; set; }
         [Required]
         [Column(TypeName = "decimal(20,8)")]
-        public decimal Quantity { get; set; }
+        public decimal? Quantity { get; set; } = 0;
+        public DateTime LastUpdated { get; set; }
         public string? CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public string? ModifiedBy { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
     }
 }

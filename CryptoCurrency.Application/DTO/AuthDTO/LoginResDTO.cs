@@ -10,7 +10,7 @@ namespace CryptoCurrency.Application.DTO.AuthDTO
     {
         public string Email { get; set; }
         public string Role { get; set; }
-        public string AuthenticatorKey { get; set; }
-        public bool Is2FAEnabled { get; set; }
+        public bool IsOtpRequired { get; set; } = true;
+        public string Message { get; set; }
     }
 }
