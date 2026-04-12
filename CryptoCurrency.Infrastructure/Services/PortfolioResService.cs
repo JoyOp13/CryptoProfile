@@ -23,12 +23,12 @@ namespace CryptoCurrency.Infrastructure.Services
             this.service = service;
         }
 
-        public async Task<List<PortfolioDTO>> GetProfileResponse(string userName)
+        public async Task<List<PortfolioDTO>> GetProfileResponse(int userId)
         {
 
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) throw new Exception("User not found");
 
             var portfolioList = db.Portfolio

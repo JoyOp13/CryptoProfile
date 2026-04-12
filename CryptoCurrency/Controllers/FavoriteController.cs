@@ -10,37 +10,40 @@ namespace CryptoCurrencyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FavoriteController : ControllerBase
+    public class favoriteController : ControllerBase
     {
         private readonly IFavoriteInterface favoriteInterface;
 
-        public FavoriteController(IFavoriteInterface favoriteInterface)
+        public favoriteController(IFavoriteInterface favoriteInterface)
         {
             this.favoriteInterface = favoriteInterface;
         }
 
-        [HttpPost("AddToFav")]
+        [HttpPost("addToFav")]
         public async Task<IActionResult> AddFav(AddFavoriteDTO dto)
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            await favoriteInterface.AddFavorite(dto, userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            await favoriteInterface.AddFavorite(dto, userId);
             return ApiResponse.Success<object>(null, "Added To Favorites ");
 
         }
         [Authorize]
-        [HttpGet("GetFav")]
+        [HttpGet("getFav")]
         public async Task<IActionResult> GetFav()
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            var data = await favoriteInterface.GetFavorites(userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            var data = await favoriteInterface.GetFavorites(userId);
             return ApiResponse.Success<object>(data, "Favorites retrieved successfully");
         }
 
-        [HttpDelete("RemoveFav{coinId}")]
+        [HttpDelete("removeFav{coinId}")]
         public async Task<IActionResult> RemoveFav(int coinId)
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            await favoriteInterface.RemoveFavorite(coinId,userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            await favoriteInterface.RemoveFavorite(coinId,userId);
             return ApiResponse.Success<object>(null,"Removed From Favorites ");
         }
 

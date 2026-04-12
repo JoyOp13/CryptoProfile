@@ -9,29 +9,33 @@ namespace CryptoCurrencyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class authController : ControllerBase
     {
         private readonly IAuthInterface authInterface;
-        public AuthController(IAuthInterface authInterface)
+        public authController(IAuthInterface authInterface)
         {
             this.authInterface = authInterface;
         }
 
-        [HttpPost("RegisterUser")]
+        [HttpPost("registerUser")]
         public IActionResult Register(RegisterDTO dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             authInterface.Register(dto);
             return ApiResponse.Success<object>(null, "User Registered Successfully");
         }
 
-        [HttpPost("LoginUser")]
+        [HttpPost("loginUser")]
         public IActionResult Login(LoginReqDTO dto)
         {
             var res = authInterface.Login(dto);
             return ApiResponse.Success<object>(res, "User Logged in Successfully");
         }
 
-        [HttpGet("QRCode")]
+        [HttpGet("qrCode")]
         public IActionResult GenerateQR(string email)
         {
             var qr = authInterface.GenerateQRCode(email);
@@ -42,7 +46,7 @@ namespace CryptoCurrencyAPI.Controllers
             });
         }
 
-        [HttpPost("VerifyOTP")]
+        [HttpPost("verifyOTP")]
         public IActionResult VerifyOtp(VerifyOTPDTO dto)
         {
             var result = authInterface.VerifyOtp(dto);

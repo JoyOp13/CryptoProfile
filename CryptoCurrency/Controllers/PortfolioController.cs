@@ -8,17 +8,18 @@ namespace CryptoCurrencyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PortfolioController : ControllerBase
+    public class portfolioController : ControllerBase
     {
         private readonly IPortfolioInterface service;
-        public PortfolioController(IPortfolioInterface service) {
+        public portfolioController(IPortfolioInterface service) {
             this.service = service;
         }
-        [HttpGet("GetPortfolio")]
+        [HttpGet("getPortfolio")]
         public async Task<IActionResult> GetPortfolio()
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            var data = await service.GetProfileResponse(userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            var data = await service.GetProfileResponse(userId);
             return ApiResponse.Success<object>(data, "Portfolio Data Featch Syccessfully");
         }
     }

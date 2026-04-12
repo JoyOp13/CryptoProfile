@@ -9,7 +9,7 @@ namespace CryptoCurrency.Application.Interface
 {
     public interface IAuthInterface
     {
-        void Register(RegisterDTO dto);
+        string Register(RegisterDTO dto);
         LoginResDTO Login(LoginReqDTO dto);
 
         string GenerateQRCode(string email);

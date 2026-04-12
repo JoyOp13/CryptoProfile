@@ -1,4 +1,7 @@
-﻿using CryptoCurrency.Application.DTO.CoinGeckoDTO;
+﻿using AutoMapper;
+using CryptoCurrency.Application.ApiResoponseHelper;
+using CryptoCurrency.Application.DTO.CoinGeckoDTO;
+using CryptoCurrency.Application.DTO.FavoriteDTO;
 using CryptoCurrency.Application.DTO.PaginationDTOS;
 using CryptoCurrency.Domain.Models;
 using CryptoCurrency.Infrastructure.Data;
@@ -17,11 +20,13 @@ namespace CryptoCurrency.Infrastructure.Services
     {
         private readonly HttpClient http;
         private readonly ApplicationDbContext db;
+        private IMapper mapper;
 
-        public CoinGekoService(HttpClient http, ApplicationDbContext db)
+        public CoinGekoService(HttpClient http, ApplicationDbContext db, IMapper mapper)
         {
             this.http = http;
             this.db = db;
+            this.mapper= mapper;
         }
 
         public async Task SyncCoins()
@@ -29,7 +34,7 @@ namespace CryptoCurrency.Infrastructure.Services
             var coins = await GetCoins(new CoinsPaginationDTO
             {
                 Page = 1,
-                PageSize = 5
+                PageSize = 30
             });
 
             foreach (var coin in coins)
@@ -96,6 +101,7 @@ namespace CryptoCurrency.Infrastructure.Services
             var response = await http.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
+
                 throw new Exception("Price Not Featched");
 
             var json = await response.Content.ReadAsStringAsync();
@@ -131,6 +137,14 @@ namespace CryptoCurrency.Infrastructure.Services
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return data;
+        }
+
+        public async Task<List<CoinFeatchDTO>> GetCoinsData() {
+
+            var data = db.CryptoCoin.ToList();
+            var coinData = mapper.Map<List<CoinFeatchDTO>>(data);
+                       
+            return coinData;
         }
     }
 }

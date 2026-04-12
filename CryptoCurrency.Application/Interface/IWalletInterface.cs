@@ -9,8 +9,8 @@ namespace CryptoCurrency.Application.Interface
 {
     public interface IWalletInterface
     {
-        void AddMoney(AddMoneyDTO dto, string userName);
-        void WithdrawMoney(WithDrawDTO dto, string userName);
-        WalletDTO GetWallet(string userName);
+        void AddMoney(AddMoneyDTO dto, int userId);
+        void WithdrawMoney(WithDrawDTO dto, int userId);
+        WalletDTO GetWallet(int userId);
     }
 }

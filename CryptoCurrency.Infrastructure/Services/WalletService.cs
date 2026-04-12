@@ -19,11 +19,11 @@ namespace CryptoCurrency.Infrastructure.Services
                 this.db = db;
             }
 
-            public void AddMoney(AddMoneyDTO dto, string userName)
+            public void AddMoney(AddMoneyDTO dto, int userId)
             {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
 
             if (user == null) throw new Exception("User not found");
 
@@ -36,7 +36,7 @@ namespace CryptoCurrency.Infrastructure.Services
                         UserId = user.UserId,
                         Balance = dto.Amount,
                         CreatedAt = DateTime.Now,
-                        CreatedBy = userName
+                        CreatedBy = user.UserName
                     };
                     db.Wallet.Add(wallet);
                 db.SaveChanges();
@@ -45,7 +45,7 @@ namespace CryptoCurrency.Infrastructure.Services
                 {
                     wallet.Balance += dto.Amount;
                     wallet.ModifiedAt = DateTime.Now;
-                    wallet.ModifiedBy = userName;
+                    wallet.ModifiedBy = user.UserName;
                 }
 
                 // Saveing Wallet History 
@@ -57,17 +57,17 @@ namespace CryptoCurrency.Infrastructure.Services
                     Amount = dto.Amount,
                     status = "Completed",
                     CreatedAt = DateTime.Now,
-                    CreatedBy = userName
+                    CreatedBy = user.UserName
                 });
 
                 db.SaveChanges();
             }
 
-            public void WithdrawMoney(WithDrawDTO dto, string userName)
+            public void WithdrawMoney(WithDrawDTO dto, int userId)
             {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) throw new Exception("User not found");
 
                 var wallet = db.Wallet.FirstOrDefault(x => x.UserId == user.UserId);
@@ -78,7 +78,7 @@ namespace CryptoCurrency.Infrastructure.Services
 
                 wallet.Balance -= dto.Amount;
                 wallet.ModifiedAt = DateTime.Now;
-                wallet.ModifiedBy = userName;
+                wallet.ModifiedBy = user.UserName;
 
                 // Saveing Wallet History
                 db.Set<WalletHistory>().Add(new WalletHistory
@@ -89,17 +89,17 @@ namespace CryptoCurrency.Infrastructure.Services
                     Amount = dto.Amount,
                     status = "Completed",
                     CreatedAt = DateTime.Now,
-                    CreatedBy = userName
+                    CreatedBy = user.UserName
                 });
 
                 db.SaveChanges();
             }
 
-            public WalletDTO GetWallet(string userName)
+            public WalletDTO GetWallet(int userId)
             {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
 
             if (user == null) throw new Exception("User not found");
 

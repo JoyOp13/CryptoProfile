@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CryptoCurrency.Domain.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace CryptoCurrency.Infrastructure.Services
             this.config = config;
         }
 
-        public string GenerateToken(string email, string role, string userName)
+        public string GenerateToken(string email, string role, string userName,int UserId)
         {
             var key = Encoding.UTF8.GetBytes(config["Jwt:Key"]);
 
@@ -27,7 +28,8 @@ namespace CryptoCurrency.Infrastructure.Services
             {
             new Claim(ClaimTypes.Name, userName ),
             new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Role, role)
+            new Claim(ClaimTypes.Role, role),
+             new Claim(ClaimTypes.NameIdentifier, UserId.ToString())
             };
 
             var credentials = new SigningCredentials(

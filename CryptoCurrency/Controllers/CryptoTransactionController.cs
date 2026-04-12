@@ -10,36 +10,47 @@ namespace CryptoCurrencyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CryptoTransactionController : ControllerBase
+    public class cryptoTransactionController : ControllerBase
     {
         private readonly ICryptoTransactionInterface service;
 
-        public CryptoTransactionController(ICryptoTransactionInterface service)
+        public cryptoTransactionController(ICryptoTransactionInterface service)
         {
             this.service = service;
         }
 
-        [HttpPost("Buy")]
+        [HttpPost("buy")]
         public async Task<IActionResult> Buy(BuyCoinDTO dto)
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            await service.BuyCoin(dto, userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+        
+            await service.BuyCoin(dto, userId);
             return ApiResponse.Success<object>(null, "Coin Kharid Diya");
+            //if (int.TryParse(userIdString, out int userId))
+            //{
+            //    await service.BuyCoin(dto, userId);
+            //    return ApiResponse.Success<object>(null, "Coin Kharid Diya");
+            //}
+
+            //return ApiResponse.Failure("Invalid User ID");
         }
 
-        [HttpPost("Sell")]
+        [HttpPost("sell")]
         public async Task<IActionResult> Sell(SellCoinDTO dto)
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            await service.SellCoin(dto, userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            await service.SellCoin(dto, userId);
             return ApiResponse.Success<object>(null, "Coin Bech Diya");
         }
 
-        [HttpGet("TransactionHistory")]
+        [HttpGet("transactionHistory")]
         public IActionResult GetTransaction()
         {
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
-            var data = service.GetTransactionHistory(userName);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
+            var data = service.GetTransactionHistory(userId);
             return ApiResponse.Success<object>(data, "Transaction History Featch Syccessfully");
         }
     }

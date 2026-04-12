@@ -23,7 +23,7 @@ namespace CryptoCurrency.Domain.Models
 
         [Required]
         [MaxLength(150)]
-        public string PassWord { get; set; }
+        public string Password { get; set; }
         public string? Role { get; set; }
         public string? AuthenticatorKey { get; set; }
         public bool Is2FAEnabled { get; set; }
@@ -33,6 +33,8 @@ namespace CryptoCurrency.Domain.Models
         public string? CreatedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public string? ModifiedBy { get; set; }
+        public string? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
     }
 }

@@ -13,23 +13,6 @@ namespace CryptoCurrency.Domain.Models
         [Key]
         public int TransactionId { get; set; }
 
-        [ForeignKey("Users")]
-        public int UserId { get; set; }
-
-        public Users Users { get; set; }
-
-        [ForeignKey("CryptoCoin")]
-        public int CryptoCoinId { get; set; }
-
-        public CryptoCoin CryptoCoin { get; set; }
-
-
-
-        [ForeignKey("Wallet")]
-        public int WalletId { get; set; }
-
-        public Wallet Wallet { get; set; }
-
         [Required]
         [Column(TypeName = "decimal(20,8)")]
         public decimal Quantity { get; set; }
@@ -66,5 +49,22 @@ namespace CryptoCurrency.Domain.Models
         public string? CreatedBy { get; set; }
 
         public DateTime CreatedAt { get; set; }
+        public string? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
+        // Foreign Keys
+        [ForeignKey("Users")]
+        public int UserId { get; set; }
+
+        public Users Users { get; set; }
+
+        [ForeignKey("CryptoCoin")]
+        public int CryptoCoinId { get; set; }
+
+        public CryptoCoin CryptoCoin { get; set; }
+
+        [ForeignKey("Wallet")]
+        public int WalletId { get; set; }
+        public Wallet Wallet { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace CryptoCurrency.Application.DTO.FavoriteDTO
     public class AddFavoriteDTO
     {
         public int CryptoCoinId { get; set; }
+
     }
 }

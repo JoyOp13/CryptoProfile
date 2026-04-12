@@ -9,8 +9,8 @@ namespace CryptoCurrency.Application.Interface
 {
     public interface IFavoriteInterface
     {
-        Task AddFavorite(AddFavoriteDTO dto, string userName);
-        Task<List<FavoriteResDTO>> GetFavorites(string userName);
-        Task RemoveFavorite(int coinId, string userName);
+        Task AddFavorite(AddFavoriteDTO dto, int userId);
+        Task<List<FavoriteResDTO>> GetFavorites(int userId);
+        Task RemoveFavorite(int coinId, int userId);
     }
 }

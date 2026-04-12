@@ -9,40 +9,43 @@ namespace CryptoCurrencyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WalletController : ControllerBase
+    public class walletController : ControllerBase
     {
         private readonly IWalletInterface walletService;
 
-        public WalletController(IWalletInterface walletService)
+        public walletController(IWalletInterface walletService)
         {
             this.walletService = walletService;
         }
 
-        [HttpPost("AddMoney")]
+        [HttpPost("addMoney")]
         public IActionResult AddMoney(AddMoneyDTO dto)
         {
-            var user = User.FindFirst(ClaimTypes.Name)?.Value;
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
 
-            walletService.AddMoney(dto, user);
+            walletService.AddMoney(dto, userId);
             return ApiResponse.Success<object>(null, "Money Added successfully");
         }
 
-        [HttpPost("WithDraw")]
+        [HttpPost("withDraw")]
         public IActionResult Withdraw(WithDrawDTO dto)
         {
-            var user = User.FindFirst(ClaimTypes.Name)?.Value;
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
 
-            walletService.WithdrawMoney(dto, user);
+            walletService.WithdrawMoney(dto, userId);
             return ApiResponse.Success<object>(null, "Money Withdraw successfully");
         }
 
-        [HttpGet("Balance")]
+        [HttpGet("balance")]
         public IActionResult GetBalance()
         {
-            var user = User.FindFirst(ClaimTypes.Name)?.Value;
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(userIdString);
 
-            var data = walletService.GetWallet(user);
-            return ApiResponse.Success<object>(data, "Wallet Balance Featch Syccessfully");
+            var data = walletService.GetWallet(userId);
+            return ApiResponse.Success<object>(data, "Wallet Balance Featch Successfully");
         }
     }
 }

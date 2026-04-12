@@ -16,18 +16,13 @@ namespace CryptoCurrency.Domain.Models
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Balance { get; set; }
-
         public string? ModifiedBy { get; set; }
-
         public DateTime ModifiedAt { get; set; }
-
         public string? CreatedBy { get; set; }
-
         public DateTime CreatedAt { get; set; }
+        public string? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
-
-        //[ForeignKey("WalletTransactions")]
-        //public int WalletTransactionId { get; set; }
 
         public List<WalletHistory> WalletHistory { get; set; }
 

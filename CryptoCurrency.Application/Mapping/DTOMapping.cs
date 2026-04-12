@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CryptoCurrency.Application.DTO.Buy_SellDTO;
 using CryptoCurrency.Application.DTO.BuyDTO;
+using CryptoCurrency.Application.DTO.CoinGeckoDTO;
 using CryptoCurrency.Application.DTO.FavoriteDTO;
 using CryptoCurrency.Application.DTO.ProfileResDTO;
 using CryptoCurrency.Application.DTO.TransactionDTO;
@@ -66,6 +67,9 @@ namespace CryptoCurrency.Application.Mapping
                  y => y.MapFrom(y => y.CryptoCoin.CryptoCoinName))
                 .ForMember(x => x.Symbol,
                  y => y.MapFrom(y => y.CryptoCoin.CryptoSymbol));
+
+            CreateMap<CryptoCoin, CoinGeckoDTO>().ReverseMap();
+            CreateMap<CryptoCoin, CoinFeatchDTO>().ReverseMap();
 
         }
     }

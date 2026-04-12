@@ -9,5 +9,6 @@ namespace CryptoCurrency.Application.DTO.AuthDTO
     public class TokenDTO
     {
         public string Token { get; set; }
+        public string message { get; set; }
     }
 }

@@ -23,11 +23,11 @@ namespace CryptoCurrency.Infrastructure.Services
          this.mapper = mapper;
          this.coinGeko = coinGeko;
         }
-        public async Task AddFavorite(AddFavoriteDTO dto, string userName)
+        public async Task AddFavorite(AddFavoriteDTO dto, int userId)
         {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
             if ((user == null))
                 throw new Exception("User not found");
 
@@ -46,11 +46,11 @@ namespace CryptoCurrency.Infrastructure.Services
             await db.SaveChangesAsync();
         }
 
-        public async Task<List<FavoriteResDTO>> GetFavorites(string userName)
+        public async Task<List<FavoriteResDTO>> GetFavorites(int userId)
         {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
             if ((user == null))
                 throw new Exception("User not found");
 
@@ -63,7 +63,7 @@ namespace CryptoCurrency.Infrastructure.Services
             {
                 var dto = mapper.Map<FavoriteResDTO>(item);
 
-                var price = await coinGeko.GetCoinPrice(item.CryptoCoin.CoinGeckoId);
+                var price = db.CryptoCoin.Where(x => x.CryptoCoinId == dto.CryptoCoinId).Select(x => x.CurrentPrice).FirstOrDefault();
 
                 dto.CurrentPrice = price;
                 result.Add(dto);
@@ -72,11 +72,11 @@ namespace CryptoCurrency.Infrastructure.Services
             return result;
         }
 
-        public async Task RemoveFavorite(int coinId, string userName)
+        public async Task RemoveFavorite(int coinId, int userId)
         {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) throw new Exception("User not found");
 
             var fav = db.Favorite
