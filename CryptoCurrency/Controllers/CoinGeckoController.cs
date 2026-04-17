@@ -33,10 +33,19 @@ namespace CryptoCurrencyAPI.Controllers
             return ApiResponse.Success<object>(null, "Crypto Coins Sync Syccessfully");
         }
 
-        [HttpGet("GetCoinsData")]
+        // For Fetching Limited Coins Data for Home Page
+
+        //[HttpGet("getcoinsdata")]
+        //public async Task<IActionResult> GetCoins([FromQuery] int pageSize)
+        //{
+        //    var data = await service.GetCoinsData(pageSize); 
+        //    return ApiResponse.Success<object>(data, "Crypto Coins Featch Syccessfully");
+        //}
+
+        [HttpGet("getcoinsdata")]
         public async Task<IActionResult> GetCoins()
         {
-            var data = await service.GetCoinsData(); 
+            var data = await service.GetCoinsData();
             return ApiResponse.Success<object>(data, "Crypto Coins Featch Syccessfully");
         }
     }

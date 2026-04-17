@@ -18,7 +18,7 @@ namespace CryptoCurrencyAPI.Controllers
         {
             this.favoriteInterface = favoriteInterface;
         }
-
+        [Authorize]
         [HttpPost("addToFav")]
         public async Task<IActionResult> AddFav(AddFavoriteDTO dto)
         {
@@ -37,8 +37,8 @@ namespace CryptoCurrencyAPI.Controllers
             var data = await favoriteInterface.GetFavorites(userId);
             return ApiResponse.Success<object>(data, "Favorites retrieved successfully");
         }
-
-        [HttpDelete("removeFav{coinId}")]
+        [Authorize]
+        [HttpDelete("removeFav/{coinId}")]
         public async Task<IActionResult> RemoveFav(int coinId)
         {
             var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

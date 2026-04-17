@@ -44,6 +44,7 @@ builder.Services.AddScoped<IPortfolioInterface, PortfolioResService>();
 builder.Services.AddSingleton<ILoggerInterface,LoggerService>();
 builder.Services.AddScoped<IFavoriteInterface, FavoriteService>();
 builder.Services.AddScoped<IAuthInterface, AuthService>();
+builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<CoinSyncService>();
 builder.Services.AddScoped<CoinGekoService>();
@@ -63,7 +64,7 @@ builder.Services.AddRateLimiter(options =>
         partitionKey: context.User.Identity?.Name ?? context.Connection.RemoteIpAddress?.ToString(),
         factory: _ => new FixedWindowRateLimiterOptions
         {
-            PermitLimit = 5,
+            PermitLimit = 10,
             Window = TimeSpan.FromSeconds(10),
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst
             //QueueLimit=2

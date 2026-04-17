@@ -90,6 +90,7 @@ namespace CryptoCurrency.Infrastructure.Services
                     UserId = user.UserId,
                     CryptoCoinId = dto.CryptoCoinId,
                     Quantity = dto.Quantity,
+                    AvgBuyPrice = price
                 };
 
                 db.Portfolio.Add(portfolio);
@@ -124,7 +125,7 @@ namespace CryptoCurrency.Infrastructure.Services
             var user = db.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null) 
                 return new ServiceResponse { 
-                    Message = "Wallet Not Found" 
+                    Message = "User Not Found" 
                 };
 
             var wallet = db.Wallet.FirstOrDefault(x => x.UserId == user.UserId);
@@ -138,7 +139,7 @@ namespace CryptoCurrency.Infrastructure.Services
             if (coin == null) 
                 return new ServiceResponse 
                 { 
-                    Message = "Wallet Not Found" 
+                    Message = "Crypto Coin Not Found" 
                 };
 
             var portfolio = db.Portfolio
@@ -147,13 +148,13 @@ namespace CryptoCurrency.Infrastructure.Services
             if (portfolio == null)
                 return new ServiceResponse 
                 { 
-                    Message = "Wallet Not Found" 
+                    Message = "Portfolio Not Found" 
                 };
 
             if (portfolio.Quantity < dto.Quantity)
                 return new ServiceResponse 
                 { 
-                    Message = "Wallet Not Found" 
+                    Message = "Insufficient Quantity in Portfolio" 
                 };
 
             // var price = await service.GetCoinPrice(coin.CoinGeckoId);

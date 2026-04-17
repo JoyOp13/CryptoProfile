@@ -139,11 +139,20 @@ namespace CryptoCurrency.Infrastructure.Services
             return data;
         }
 
-        public async Task<List<CoinFeatchDTO>> GetCoinsData() {
+        //public async Task<List<CoinFeatchDTO>> GetCoinsData(int pageSize) {
+
+        //    var data = db.CryptoCoin.Take(pageSize).ToList();
+        //    var coinData = mapper.Map<List<CoinFeatchDTO>>(data);
+                       
+        //    return coinData;
+        //}
+
+        public async Task<List<CoinFeatchDTO>> GetCoinsData()
+        {
 
             var data = db.CryptoCoin.ToList();
             var coinData = mapper.Map<List<CoinFeatchDTO>>(data);
-                       
+
             return coinData;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using CryptoCurrency.Application.DTO.FavoriteDTO;
+using CryptoCurrency.Application.DTO.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace CryptoCurrency.Application.Interface
 {
     public interface IFavoriteInterface
     {
-        Task AddFavorite(AddFavoriteDTO dto, int userId);
+        Task<ServiceResponse> AddFavorite(AddFavoriteDTO dto, int userId);
         Task<List<FavoriteResDTO>> GetFavorites(int userId);
-        Task RemoveFavorite(int coinId, int userId);
+        Task<ServiceResponse> RemoveFavorite(int coinId, int userId);
     }
 }

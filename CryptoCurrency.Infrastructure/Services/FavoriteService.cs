@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CryptoCurrency.Application.DTO.FavoriteDTO;
+using CryptoCurrency.Application.DTO.Response;
 using CryptoCurrency.Application.Interface;
 using CryptoCurrency.Domain.Models;
 using CryptoCurrency.Infrastructure.Data;
@@ -23,20 +24,26 @@ namespace CryptoCurrency.Infrastructure.Services
          this.mapper = mapper;
          this.coinGeko = coinGeko;
         }
-        public async Task AddFavorite(AddFavoriteDTO dto, int userId)
+        public async Task<ServiceResponse> AddFavorite(AddFavoriteDTO dto, int userId)
         {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
+            var user = await db.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             if ((user == null))
-                throw new Exception("User not found");
+                return new ServiceResponse
+                {
+                    Message = "User Not Found"
+                };
 
-            var exists = db.Favorite
-            .Any(x => x.UserId == user.UserId && x.CryptoCoinId == dto.CryptoCoinId);
+            var exists = db.Favorite.Any(x => x.UserId == user.UserId && x.CryptoCoinId == dto.CryptoCoinId
+                            && x.DeletedAt == null);
 
             if (exists)
-                throw new Exception("Already in favorites");
-
+                return new ServiceResponse
+                {
+                    Message = "Already in favorites"
+                };
+            
             db.Favorite.Add(new Favorite
             {
                 UserId = user.UserId,
@@ -44,19 +51,20 @@ namespace CryptoCurrency.Infrastructure.Services
             });
 
             await db.SaveChangesAsync();
+            return new ServiceResponse { Success = true, Message = "Favorite added successfully" };
         }
 
         public async Task<List<FavoriteResDTO>> GetFavorites(int userId)
         {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
+            var user = await db.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             if ((user == null))
                 throw new Exception("User not found");
 
-            var Favdata = db.Favorite.Where(x => x.UserId == user.UserId)
+            var Favdata = await db.Favorite.Where(x => x.UserId == user.UserId && x.DeletedAt== null)
                 .Include(x => x.CryptoCoin)
-                .ToList();
+                .ToListAsync();
             var result = new List<FavoriteResDTO>();
 
             foreach (var item in Favdata)
@@ -72,22 +80,32 @@ namespace CryptoCurrency.Infrastructure.Services
             return result;
         }
 
-        public async Task RemoveFavorite(int coinId, int userId)
+        public async Task<ServiceResponse> RemoveFavorite(int coinId, int userId)
         {
             //userName = "jay";
             //var user = db.Users.FirstOrDefault(x => x.UserName == userName);
-            var user = db.Users.FirstOrDefault(x => x.UserId == userId);
-            if (user == null) throw new Exception("User not found");
+            var user = await db.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (user == null)
+                return new ServiceResponse
+                {
+                    Message = "User Not Found"
+                };
 
-            var fav = db.Favorite
-                .FirstOrDefault(x => x.UserId == user.UserId && x.CryptoCoinId == coinId);
+            var fav = await db.Favorite
+                .FirstOrDefaultAsync(x => x.UserId == user.UserId && x.CryptoCoinId == coinId && x.DeletedAt == null); 
 
             if (fav == null)
-                throw new Exception("Favorite not found");
+                return new ServiceResponse
+                {
+                    Message = "Favorite not found"
+                };
+            fav.DeletedAt = DateTime.UtcNow;
+            fav.DeletedBy = userId.ToString();
 
-            db.Favorite.Remove(fav);
+            db.Favorite.Update(fav);
 
-            await db.SaveChangesAsync(); ;
+            await db.SaveChangesAsync();
+            return new ServiceResponse { Success = true, Message = "Favorite removed successfully" };
         }
     }
 }

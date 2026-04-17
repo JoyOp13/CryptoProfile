@@ -45,6 +45,8 @@ namespace CryptoCurrency.Infrastructure.Services
                 var dto = mapper.Map<PortfolioDTO>(item);
 
                 dto.CurrentPrice = currentPrice;
+                dto.TotalInvestment = item.Quantity * item.AvgBuyPrice;
+
                 dto.CurrentValue = item.Quantity * currentPrice;
                 dto.ProfitLoss = dto.CurrentValue - dto.TotalInvestment;
 

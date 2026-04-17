@@ -5,6 +5,8 @@ using CryptoCurrency.Application.DTO.CoinGeckoDTO;
 using CryptoCurrency.Application.DTO.FavoriteDTO;
 using CryptoCurrency.Application.DTO.ProfileResDTO;
 using CryptoCurrency.Application.DTO.TransactionDTO;
+using CryptoCurrency.Application.DTO.UserDTO;
+using CryptoCurrency.Application.DTO.WalletDTO;
 using CryptoCurrency.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -70,6 +72,11 @@ namespace CryptoCurrency.Application.Mapping
 
             CreateMap<CryptoCoin, CoinGeckoDTO>().ReverseMap();
             CreateMap<CryptoCoin, CoinFeatchDTO>().ReverseMap();
+
+            CreateMap<Users, GetUserDTO>().ReverseMap();
+            CreateMap<Users, UpdateUserDTO>().ReverseMap();
+
+            CreateMap<WalletHistory,WalletTransactionDTO>().ReverseMap();
 
         }
     }

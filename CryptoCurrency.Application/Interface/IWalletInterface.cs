@@ -1,4 +1,5 @@
-﻿using CryptoCurrency.Application.DTO.WalletDTO;
+﻿using CryptoCurrency.Application.DTO.TransactionDTO;
+using CryptoCurrency.Application.DTO.WalletDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,9 @@ namespace CryptoCurrency.Application.Interface
         void AddMoney(AddMoneyDTO dto, int userId);
         void WithdrawMoney(WithDrawDTO dto, int userId);
         WalletDTO GetWallet(int userId);
+        List<WalletTransactionDTO> GetWalletHistory(int userId);
+        object CreateOrder(decimal amount);
+        bool VerifyPayment(string orderId, string paymentId, string signature);
+
     }
 }
